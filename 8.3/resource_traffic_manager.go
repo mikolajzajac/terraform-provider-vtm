@@ -534,7 +534,7 @@ func getResourceTrafficManagerSchema() map[string]*schema.Schema {
 		// The IP addresses of the nameservers the appliance should use
 		//  and place in "/etc/systemd/resolved.conf".
 		"appliance_name_servers": &schema.Schema{
-			Type:     schema.TypeSet,
+			Type:     schema.TypeList,
 			Optional: true,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
@@ -1295,7 +1295,7 @@ func resourceTrafficManagerObjectFieldAssignments(d *schema.ResourceData, object
 	setBool(&object.Appliance.Managevpcconf, d, "appliance_managevpcconf")
 
 	if _, ok := d.GetOk("appliance_name_servers"); ok {
-		setStringSet(&object.Appliance.NameServers, d, "appliance_name_servers")
+		setStringList(&object.Appliance.NameServers, d, "appliance_name_servers")
 	} else {
 		object.Appliance.NameServers = &[]string{}
 		d.Set("appliance_name_servers", []string(*object.Appliance.NameServers))
